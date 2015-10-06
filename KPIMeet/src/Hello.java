@@ -6,7 +6,11 @@ public class Hello {
     public static void main(String[] args) {
         System.out.print("Hello server World");
         System.out.print("Or not?!"); // try to merge
+<<<<<<< HEAD
 //Try to Reverge
+=======
+//marge from new branch
+>>>>>>> tryRevert
 
     }
 }
