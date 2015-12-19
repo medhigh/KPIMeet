@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_id": "kpimeet-24819",
+    "project_number": "848940525316",
+    "name": "KPImeet"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848940525316:android:daaab721b6592041",
+        "client_id": "android:com.meet.kpi",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.meet.kpi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848940525316-9ajrjqpjh8485ntrk8lv13t3ea747ts8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.meet.kpi",
+            "certificate_hash": "1DC8FB8864556061E8E99AF6DA0B624CAC2FD7E0"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
