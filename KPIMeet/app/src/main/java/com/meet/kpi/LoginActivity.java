@@ -1,8 +1,10 @@
 package com.meet.kpi;
 
+import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -19,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +32,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.UserRecoverableAuthException;
+import com.google.android.gms.common.AccountPicker;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+    private static final String TAG = "MyLogs";
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -61,6 +71,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private final static String G_PLUS_SCOPE =
+            "oauth2:https://www.googleapis.com/auth/plus.me";
+    private final static String USERINFO_SCOPE =
+            "https://www.googleapis.com/auth/userinfo.profile";
+    private final static String EMAIL_SCOPE =
+            "https://www.googleapis.com/auth/userinfo.email";
+    private final static String SCOPES = G_PLUS_SCOPE + " " + USERINFO_SCOPE + " " + EMAIL_SCOPE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +109,50 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        View btn = (View) findViewById(R.id.sign_in_button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},
+                        false, null, null, null, null);
+                startActivityForResult(intent, 123);
+
+            }
+        });
+
+    }
+    protected void onActivityResult(final int requestCode, final int resultCode,
+                                    final Intent data) {
+        if (requestCode == 123 && resultCode == RESULT_OK) {
+            final String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+            final AsyncTask<Void, Void, String> getToken = new AsyncTask<Void, Void, String>() {
+                @Override
+                protected String doInBackground(Void... params) {
+                    try {
+                        String token = GoogleAuthUtil.getToken(LoginActivity.this, accountName,
+                                SCOPES);
+                        return token;
+
+                    } catch (UserRecoverableAuthException userAuthEx) {
+                        startActivityForResult(userAuthEx.getIntent(), 123);
+                    }  catch (IOException ioEx) {
+                        Log.d(TAG, "IOException");
+                    }  catch (GoogleAuthException fatalAuthEx)  {
+                        Log.d(TAG, "Fatal Authorization Exception" + fatalAuthEx.getLocalizedMessage());
+                    }
+                    //return token;
+                    return null;
+                }
+
+//                @Override
+//                protected void onPostExecute(String token) {
+//                    reg(token);
+//                }
+
+            };
+            getToken.execute(null, null, null);
+        }
     }
 
     private void populateAutoComplete() {
