@@ -18,6 +18,31 @@ android {
         }
     }
 }
+Integer VERSION_CODE = 16
+String VERSION_NAME = getVersionName("0.4-SNAPSHOT")
+
+
+def getVersionName(String preferredVersionName) {
+    if (preferredVersionName.contains("-SNAPSHOT")) {
+        return getGitStatus(preferredVersionName)
+    } else {
+        return preferredVersionName
+    }
+}
+
+def getGitStatus(String versionName) {
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe'
+            standardOutput = stdout
+        }
+        return versionName + '-' + stdout.toString().trim()
+    }
+    catch (ignored) {
+        return versionName;
+    }
+}
 apply plugin: 'com.google.gms.google-services'
 
 dependencies {
