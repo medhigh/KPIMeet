@@ -22,7 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".VersionInformationActivity"></activity>
+        <activity android:name=".VersionInformationActivity" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>
