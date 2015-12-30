@@ -7,9 +7,9 @@ import android.widget.TextView;
 
 import com.robotium.solo.Solo;
 
-public class VersoinTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class VersionTest extends ActivityInstrumentationTestCase2<MainActivity> {
     private Solo solo;
-    public VersoinTest() {
+    public VersionTest() {
         super(MainActivity.class);
     }
 

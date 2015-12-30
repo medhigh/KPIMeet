@@ -15,6 +15,7 @@ def getGitStatus(String versionName) {
         return versionName;
     }
 }
+
 android {
     compileSdkVersion 23
     buildToolsVersion '23.0.1'
@@ -28,7 +29,7 @@ android {
         multiDexEnabled true
     }
     buildTypes {
-        debug{
+        debug {
             resValue "string", "version", VERSION_NAME
         }
         release {
@@ -59,4 +60,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile files('lib/mysql-connector-java-5.1.36-bin.jar')
     compile 'com.android.support:multidex:1.0.0'
+    compile files('lib/robotium-solo-5.5.3.jar')
 }
