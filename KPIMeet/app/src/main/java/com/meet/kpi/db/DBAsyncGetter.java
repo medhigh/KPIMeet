@@ -57,7 +57,7 @@ public class DBAsyncGetter extends AsyncTask<Void,Void,List<Clinic>> {
 
 
     public static List<Clinic> getAll(){
-        Database db = new MySQL(new MySQLSettingsImpl("medhigh", "635589", "onmaplocations","109.86.145.149"));
+        Database db = new MySQL(new MySQLSettingsImpl("medhigh", "635589", "onmaplocations","109.86.145.149",3306));
         MappingSession.registerDatabase(db);
         MappingSession.registerEntity(Clinic.class);
         MappingSession.start();

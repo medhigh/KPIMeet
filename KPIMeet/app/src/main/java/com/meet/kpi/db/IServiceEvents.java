@@ -9,6 +9,6 @@ public interface IServiceEvents
 {
     void starting();
 
-    void completed(List<Clinic> clinics);
+    void completed(List<Clinic> Clinics);
 }
 
