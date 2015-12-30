@@ -19,8 +19,9 @@ public class SingletonDAO {
             instance = new DBAsyncGetter(contextActivity);
             instance.execute();
         }else {
-            instance.setContext(contextActivity);
-            instance.onPostExecute(instance.list);
+            instance = new DBAsyncGetter(contextActivity);
+            instance.setReload(true);
+            instance.execute();
         }
     }
     public static synchronized List<Clinic> getList(){

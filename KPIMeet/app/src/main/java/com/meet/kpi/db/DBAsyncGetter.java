@@ -21,7 +21,7 @@ public class DBAsyncGetter extends AsyncTask<Void,Void,List<Clinic>> {
 
     List<Clinic> list;
     IServiceEvents context;
-
+    public boolean reload;
     public void setContext(IServiceEvents context) {
         this.context = context;
     }
@@ -42,7 +42,7 @@ public class DBAsyncGetter extends AsyncTask<Void,Void,List<Clinic>> {
     protected List<Clinic> doInBackground(Void... params) {
         List<Clinic> list = new ArrayList<>(1);
         try{
-            list = getAll();
+            list = getAll(reload);
         } catch (OrmanException e){
             Log.e(TAG,"could not load any structure from base: exeption: "+e.toString());
             e.printStackTrace();
@@ -56,15 +56,21 @@ public class DBAsyncGetter extends AsyncTask<Void,Void,List<Clinic>> {
     }
 
 
-    public static List<Clinic> getAll(){
-        Database db = new MySQL(new MySQLSettingsImpl("medhigh", "635589", "onmaplocations","109.86.145.149",3306));
-        MappingSession.registerDatabase(db);
-        MappingSession.registerEntity(Clinic.class);
-        MappingSession.start();
+    public static List<Clinic> getAll(boolean reload){
+        if(!reload) {
+            Database db = new MySQL(new MySQLSettingsImpl("medhigh", "635589", "onmaplocations", "109.86.145.149", 3306));
+            MappingSession.registerDatabase(db);
+            MappingSession.registerEntity(Clinic.class);
+            MappingSession.start();
+        }
         List<Clinic> clinicList = Model.fetchAll(Clinic.class);
         for (Clinic c: clinicList){
             Log.d("db", "HERE OUR CLINIC INFO " + c.name + " " + c.lat);
         }
         return clinicList;
+    }
+
+    public void setReload(boolean reload) {
+        this.reload = reload;
     }
 }

@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements IServiceEvents {
     public void sendRequest(){
         SingletonDAO.getStartAsync(this);
     }
+
     @Override
     public void starting() {
         Log.d("MainActivity","Request Started");
