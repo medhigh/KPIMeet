@@ -120,13 +120,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},
                         false, null, null, null, null);
                 startActivityForResult(intent, 123);
-//                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-//                finish();
+
 
             }
         });
 
     }
+
     protected void onActivityResult(final int requestCode, final int resultCode,
                                     final Intent data) {
         if (requestCode == 123 && resultCode == RESULT_OK) {
@@ -157,6 +157,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             };
             getToken.execute(null, null, null);
+            startActivity(new Intent(getApplicationContext(),MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+            finish();
         }
     }
 
