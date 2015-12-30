@@ -1,11 +1,16 @@
 package com.meet.kpi;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
+import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.meet.kpi.db.Clinic;
 import com.meet.kpi.db.IServiceEvents;
@@ -16,6 +21,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements IServiceEvents {
     @Bind(R.id.listView)
@@ -47,9 +53,19 @@ public class MainActivity extends AppCompatActivity implements IServiceEvents {
         }
         adapter.notifyDataSetChanged();
     }
-
+    @OnClick(R.id.showVer)
+    public void onClickVer(View view){
+        startActivity(new Intent(this,VersionInformationActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+    }
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+
+        MultiDex.install(this);
     }
 }
